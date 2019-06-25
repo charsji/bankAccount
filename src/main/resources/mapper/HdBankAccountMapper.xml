@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hodo.jjaccount.mapper.HdBankAccountMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hodo.jjaccount.entity.HdBankAccount" id="hdBankAccountMap">
+        <result property="id" column="ID"/>
+        <result property="accountDate" column="ACCOUNT_DATE"/>
+        <result property="no" column="NO"/>
+        <result property="subjects" column="SUBJECTS"/>
+        <result property="remark" column="REMARK"/>
+        <result property="income" column="INCOME"/>
+        <result property="pay" column="PAY"/>
+        <result property="balance" column="BALANCE"/>
+        <result property="companyName" column="COMPANY_NAME"/>
+        <result property="createName" column="CREATE_NAME"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="rid" column="RID"/>
+        <result property="sheetid" column="SHEETID"/>
+        <result property="synAccountDate" column="SYNACCOUNT_DATE"/>
+        <result property="tenantId" column="TENANTID"/>
+        <result property="accountType" column="ACCOUNTTYPE"/>
+        <result property="bankname" column="BANKNAME"/>
+
+    </resultMap>
+    <resultMap id="incomeAndPayMap" type="com.hodo.jjaccount.entity.IncomeAndPay">
+        <result property="incomes" column="incomes"></result>
+        <result property="pays" column="pays"></result>
+    </resultMap>
+    <resultMap id="statisticsMap" type="com.hodo.jjaccount.entity.Statistics">
+        <result property="companyName" column="companyName"></result>
+        <result property="beginBalance" column="beginBalance"></result>
+        <result property="currentIncome" column="currentIncome"></result>
+        <result property="currentPay" column="currentPay"></result>
+    </resultMap>
+    <resultMap id="hdBankAccountPageMap" type="com.hodo.jjaccount.entity.HdBankAccount">
+        <result property="accountDate" column="account_date"></result>
+        <result property="no" column="no"></result>
+        <result property="subjects" column="subjects"></result>
+        <result property="remark" column="remark"></result>
+        <result property="income" column="income"></result>
+        <result property="pay" column="pay"></result>
+        <result property="companyName" column="company_name"></result>
+        <result property="createName" column="create_name"></result>
+        <result property="balance" column="balance"/>
+    </resultMap>
+
+    <select id="getBankAccountList" resultMap="hdBankAccountMap">
+        select * from HD_BANK_ACCOUNT hba
+        inner join HD_COMPANY hc on hba.company_name=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and hba.account_date &gt;=date_format(#{startTime}, '%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and hba.account_date &lt;= date_format(#{endTime}, '%Y-%m-%d')
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and hba.TENANTID = #{tenantId}
+        </if>
+        <if test="remark!=null and remark!=''">
+            and hba.remark like CONCAT('%',#{remark},'%')
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+        order by hba.account_date desc,hba.company_name desc,hba.no desc
+        limit ${page},${limit}
+    </select>
+    <select id="getAllBankAccount" resultMap="hdBankAccountMap">
+        select * from HD_BANK_ACCOUNT hba
+        inner join HD_COMPANY hc on hba.company_name=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and hba.account_date &gt;=date_format(#{startTime}, '%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and hba.account_date &lt;= date_format(#{endTime}, '%Y-%m-%d')
+        </if>
+        <if test="remark!=null and remark!=''">
+            and hba.remark like CONCAT('%',#{remark},'%')
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and hba.TENANTID = #{tenantId}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+    </select>
+    <select id="selBalanceBysql" resultType="java.lang.String">
+        SELECT BALANCE FROM HD_BANK_ACCOUNT hba
+        inner join HD_COMPANY hc on hba.company_name=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        and hba.TENANTID = #{tenantId}
+        and
+        ACCOUNT_DATE &lt; date_format('2017-01-01','%Y-%m-%d') and income=0 and pay =0 ORDER BY ACCOUNT_DATE ASC
+    </select>
+    <select id="selIncomeAndPayBysql" resultMap="incomeAndPayMap">
+        select IFNULL(sum(income),0.00) incomes,IFNULL(sum(pay),0.00) pays from HD_BANK_ACCOUNT hba
+        inner join HD_COMPANY hc on hba.company_name=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        and hba.TENANTID = #{tenantId}
+        and hba.ACCOUNT_DATE &lt; date_format(#{date},'%Y-%m-%d')
+    </select>
+    <select id="selIncomeAndPayOnNoBysql" resultMap="incomeAndPayMap">
+        select IFNULL(sum(income),0.00) incomes,IFNULL(sum(pay),0.00) pays from HD_BANK_ACCOUNT hba
+        inner join HD_COMPANY hc on hba.company_name=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        and hba.TENANTID = #{tenantId}
+        and hba.ACCOUNT_DATE=date_format(#{date},'%Y-%m-%d') AND no &lt;= ${num} ORDER BY no
+    </select>
+
+    <select id="searchRemark" resultType="java.lang.String">
+        SELECT DISTINCT REMARK from HD_BANK_ACCOUNT WHERE TENANTID = #{tenantId} and CREATE_BY = #{userId} and REMARK IS NOT NULL
+    </select>
+
+    <select id="selectMaxNo" resultType="java.lang.Integer">
+        select max(no) from HD_BANK_ACCOUNT hba inner join HD_COMPANY hc
+        on hba.company_name=hc.id where 1=1 AND DATE_FORMAT(ACCOUNT_DATE,'%Y-%m')=
+        DATE_FORMAT(SYSDATE(),'%Y-%m')
+        AND hc.id=#{companyName} and hba.TENANTID = #{tenantId}
+    </select>
+    <select id="selectMaxNoFreeTime" resultType="java.lang.Integer">
+        select max(no) from HD_BANK_ACCOUNT hba inner join HD_COMPANY hc
+        on hba.company_name=hc.id where 1=1 AND DATE_FORMAT(ACCOUNT_DATE,'%Y-%m')=
+        DATE_FORMAT(#{accountDate},'%Y-%m')
+        AND hc.id=#{companyName} and hba.TENANTID = #{tenantId}
+    </select>
+    <select id="getSheetIdsInBankAccount" resultType="java.lang.String">
+        SELECT DISTINCT sheetid from HD_BANK_ACCOUNT where TENANTID = #{tenantId} and CREATE_BY = #{userId} and SHEETID is not null
+    </select>
+    <select id="getSheetIdsInBankPend" resultType="java.lang.String">
+        SELECT DISTINCT sheetid from HD_BANK_PENDING where TENANTID = #{tenantId} and CREATE_BY = #{userId} and SHEETID is not null
+    </select>
+    <select id="getRIdsInBankAccount" resultType="java.lang.String">
+        SELECT DISTINCT rid from HD_BANK_ACCOUNT where TENANTID = #{tenantId} and CREATE_BY = #{userId} and rid is not null
+    </select>
+    <select id="getRIdsInBankPend" resultType="java.lang.String">
+        SELECT DISTINCT rid from HD_BANK_PENDING where TENANTID = #{tenantId} and CREATE_BY = #{userId} and rid is not null
+    </select>
+    <select id="selectStatics" resultMap="statisticsMap">
+        select
+        a.COMPANY_NAME companyName,
+        sum(CASE WHEN b.ACCOUNT_DATE &lt; #{startTime} THEN b.INCOME-b.PAY ELSE 0 END) beginBalance,
+        sum(CASE WHEN b.ACCOUNT_DATE BETWEEN #{startTime} AND #{endTime} THEN b.INCOME ELSE 0 END) currentIncome,
+        sum(CASE WHEN b.ACCOUNT_DATE BETWEEN #{startTime} AND #{endTime} THEN b.PAY ELSE 0 END) currentPay
+        from HD_COMPANY a
+        LEFT JOIN HD_BANK_ACCOUNT b on a.id=b.COMPANY_NAME where a.TENANTID=#{tenantId} and a.CREATE_BY=#{userId}
+        GROUP BY a.COMPANY_NAME
+        ORDER BY a.COMPANY_NAME
+    </select>
+    <insert id="addList" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into HD_BANK_ACCOUNT(id,ACCOUNT_DATE,NO,SUBJECTS,
+        REMARK,INCOME,PAY,BALANCE,COMPANY_NAME,CREATE_NAME,CREATE_BY,RID
+        ,SHEETID,SYNACCOUNT_DATE,TENANTID,CREATE_BY)
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            SELECT uuid(),
+            #{item.accountDate},#{item.no},#{item.subjects},#{item.remark},
+            #{item.income},#{item.pay},#{item.balance},#{item.companyName},#{item.createName},
+            #{item.createBy},#{item.rid},#{item.sheetid},#{item.synAccountDate},#{item.tenantId},#{item.createBy}
+            from dual
+        </foreach>
+    </insert>
+
+    <select id="getSaveCount" resultType="java.lang.Integer">
+        SELECT sum(a) from (SELECT count(*)a from HD_BANK_ACCOUNT where TENANTID=#{tenantId}
+        and SYNACCOUNT_DATE &gt;= date_format(#{startTime}, '%Y-%m-%d')
+        and SYNACCOUNT_DATE &lt;= date_format(#{endTime}, '%Y-%m-%d')
+        UNION
+        SELECT count(*)a from HD_BANK_PENDING where TENANTID=#{tenantId}
+        and SYNACCOUNT_DATE &gt;= date_format(#{startTime}, '%Y-%m-%d')
+        and SYNACCOUNT_DATE &lt;= date_format(#{endTime}, '%Y-%m-%d')) as t;
+    </select>
+
+    <select id="getAllBankAccountBySql" resultMap="hdBankAccountPageMap">
+        SELECT ACCOUNT_DATE,no,SUBJECTS,REMARK,INCOME,pay,hc.COMPANY_NAME,
+        (SELECT sum(INCOME-PAY) from HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc on haa.COMPANY_NAME=hc.ID where 1=1
+        and haa.tenantId=#{tenantId} and haa.company_name = b.COMPANY_NAME
+        and (haa.ACCOUNT_DATE <![CDATA[ < ]]> b.ACCOUNT_DATE or (haa.ACCOUNT_DATE=b.ACCOUNT_DATE and haa.no
+        <![CDATA[ <= ]]> b.no)))BALANCE from HD_BANK_ACCOUNT b
+        INNER JOIN HD_COMPANY hc on b.COMPANY_NAME=hc.ID where b.tenantId=#{tenantId}
+        <if test="startTime!=null and startTime!=''">
+            and b.account_date <![CDATA[ >= ]]> date_format(#{startTime}, '%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and b.account_date <![CDATA[ <= ]]> date_format(#{endTime}, '%Y-%m-%d')
+        </if>
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(b.${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+        ORDER BY b.ACCOUNT_DATE desc,b.no desc
+    </select>
+    <select id="getBankAccountListBySql" resultMap="hdBankAccountPageMap">
+        SELECT ACCOUNT_DATE,no,SUBJECTS,REMARK,INCOME,pay,hc.COMPANY_NAME,
+        (SELECT sum(INCOME-PAY) from HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc on haa.COMPANY_NAME=hc.ID where 1=1
+        and haa.tenantId=#{tenantId} and haa.company_name = b.COMPANY_NAME
+        and (haa.ACCOUNT_DATE <![CDATA[ < ]]> b.ACCOUNT_DATE or (haa.ACCOUNT_DATE=b.ACCOUNT_DATE and haa.no
+        <![CDATA[ <= ]]> b.no)))BALANCE from HD_BANK_ACCOUNT b
+        INNER JOIN HD_COMPANY hc on b.COMPANY_NAME=hc.ID where b.tenantId=#{tenantId}
+        <if test="startTime!=null and startTime!=''">
+            and b.account_date <![CDATA[ >= ]]> date_format(#{startTime}, '%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and b.account_date <![CDATA[ <= ]]> date_format(#{endTime}, '%Y-%m-%d')
+        </if>
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(b.${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+        ORDER BY b.ACCOUNT_DATE desc,b.no desc limit ${page},${limit}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hodo.jjaccount.mapper.HdNzDictMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hodo.jjaccount.entity.HdNzDict" id="hdNzDictMap">
+        <result property="id" column="ID"/>
+        <result property="nzid" column="NZID"/>
+        <result property="bank" column="BANK"/>
+        <result property="wbsy" column="WBSY"/>
+        <result property="wbzh" column="WBZH"/>
+        <result property="zhname" column="ZHNAME"/>
+        <result property="tenantId" column="TENANTID"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="bankType" column="BANKTYPE"/>
+    </resultMap>
+    <select id="getAllNzDictEx" resultMap="hdNzDictMap">
+        select * from HD_NZ_DICT where 1=1
+        <if test="bankName!=null and bankName!=''">
+            and BANK like CONCAT('%',#{bankName},'%')
+        </if>
+        and TENANTID = #{tenantId} and CREATE_BY = #{userId}
+    </select>
+    <select id="selectListAllByTenant" resultMap="hdNzDictMap">
+        select * from HD_NZ_DICT where TENANTID = #{tenantId} and CREATE_BY = #{userId}
+    </select>
+    <select id="getBankNameByNZId" resultType="java.lang.String">
+        select String from HD_NZ_DICT where NZID=#{nzId} and CREATE_BY = #{userId}
+    </select>
+</mapper>

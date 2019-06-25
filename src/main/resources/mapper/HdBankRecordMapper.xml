@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hodo.jjaccount.mapper.HdBankRecordMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hodo.jjaccount.entity.HdBankRecord" id="hdBankRecordMap">
+        <result property="id" column="ID"/>
+        <result property="createName" column="CREATE_NAME"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="opertype" column="OPERTYPE"/>
+        <result property="num" column="NUM"/>
+        <result property="remark" column="REMARK"/>
+        <result property="companyid" column="COMPANYID"/>
+        <result property="flag" column="FLAG"/>
+        <result property="money" column="MONEY"/>
+        <result property="tenantId" column="TENANTID"/>
+        <result property="createBy" column="CREATE_BY"/>
+    </resultMap>
+    <select id="getHdBankRecordList" resultMap="hdBankRecordMap">
+        select * from HD_BANK_RECORD hmc
+        inner join HD_COMPANY hc on hmc.COMPANYID=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and hmc.create_date &gt;=date_format(#{startTime}, '%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and hmc.create_date &lt;= date_format(#{endTime}, '%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and hmc.TENANTID = #{tenantId}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+        order by hmc.create_date desc
+        limit ${page},${limit}
+    </select>
+    <select id="getAllBankRecord" resultMap="hdBankRecordMap">
+        select * from HD_BANK_RECORD hmc
+        inner join HD_COMPANY hc on hmc.COMPANYID=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and create_date &gt;=date_format(#{startTime}, '%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and create_date &lt;= date_format(#{endTime}, '%Y-%m-%d %H:%i:%S')
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and hmc.TENANTID = #{tenantId}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+    </select>
+    <insert id="addList" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into HD_BANK_RECORD(id,CREATE_NAME,CREATE_DATE,OPERTYPE,
+        NUM,REMARK,COMPANYID,FLAG,MONEY,TENANTID,CREATE_BY)
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            SELECT uuid(),
+            #{item.createName},#{item.createDate},#{item.opertype},#{item.num},
+            #{item.remark},#{item.companyid},#{item.flag},#{item.money},#{item.tenantId},#{item.createBy}
+            from dual
+        </foreach>
+    </insert>
+
+
+</mapper>

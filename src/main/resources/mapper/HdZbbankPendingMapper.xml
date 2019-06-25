@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hodo.jjaccount.mapper.HdZbbankPendingMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hodo.jjaccount.entity.HdZbbankPending" id="hdZbbankPendingMap">
+        <result property="id" column="ID"/>
+        <result property="accountDate" column="ACCOUNT_DATE"/>
+        <result property="subjects" column="SUBJECTS"/>
+        <result property="remark" column="REMARK"/>
+        <result property="income" column="INCOME"/>
+        <result property="pay" column="PAY"/>
+        <result property="companyName" column="COMPANY_NAME"/>
+        <result property="createName" column="CREATE_NAME"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="rid" column="RID"/>
+        <result property="sheetid" column="SHEETID"/>
+        <result property="tenantId" column="TENANTID"/>
+        <result property="synAccountDate" column="SYNACCOUNT_DATE"/>
+    </resultMap>
+    <select id="getZbBankPendingList" resultMap="hdZbbankPendingMap">
+        select * from HD_ZBBANK_PENDING where 1=1
+        <if test="startTime!=null and startTime!=''">
+            and account_date &gt;=date_format(#{startTime}, '%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and account_date &lt;= date_format(#{endTime}, '%Y-%m-%d')
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and TENANTID = #{tenantId}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+        order by account_date desc
+        limit ${page},${limit}
+    </select>
+    <select id="getAllZbBankPendingList" resultMap="hdZbbankPendingMap">
+        select * from HD_ZBBANK_PENDING where 1=1
+        <if test="startTime!=null and startTime!=''">
+            and account_date &gt;=date_format(#{startTime}, '%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and account_date &lt;= date_format(#{endTime}, '%Y-%m-%d')
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and TENANTID = #{tenantId}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+    </select>
+
+    <insert id="addList" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into HD_ZBBANK_PENDING(id,ACCOUNT_DATE,SUBJECTS,
+        REMARK,INCOME,PAY,COMPANY_NAME,CREATE_NAME,CREATE_BY,RID
+        ,SHEETID,SYNACCOUNT_DATE,TENANTID)
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            SELECT uuid(),
+            #{item.accountDate},#{item.subjects},#{item.remark},
+            #{item.income},#{item.pay},#{item.companyName},#{item.createName},
+            #{item.createBy},#{item.rid},#{item.sheetid},
+            #{item.synAccountDate},#{item.tenantId}
+            from dual
+        </foreach>
+    </insert>
+</mapper>

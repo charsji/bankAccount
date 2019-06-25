@@ -1,0 +1,23 @@
+#spring:
+#  cloud:
+#    config:
+#        discovery:
+#           service-id: ace-config
+#           enabled: true
+#        label: master  # git 分支
+#        name: university
+#        profile: dev
+##        uri: http://ace-config:8750
+#eureka:
+#    instance:
+#        statusPageUrlPath: /info
+#        healthCheckUrlPath: /health
+#        # docker 部署开启,记得将IP修改为部署所在服务器的外网IP
+#        prefer-ip-address: true
+#        instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+##        ip-address: 127.0.0.1
+#    client:
+#        serviceUrl:
+##            defaultZone: http://localhost:8761/eureka/
+#                    # docker 部署开启,记得将IP修改为部署所在服务器的外网IP
+#            defaultZone: http://${EUREKA_HOST:172.22.0.147}:${EUREKA_PORT:8761}/eureka/

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hodo.jjaccount.mapper.HdCompanyMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hodo.jjaccount.entity.HdCompany" id="hdCompanyMap">
+        <result property="id" column="ID"/>
+        <result property="companyName" column="COMPANY_NAME"/>
+        <result property="tenantId" column="TENANTID"/>
+        <result property="code" column="CODE"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="createBy" column="CREATE_BY"/>
+    </resultMap>
+    <select id="getCompanyNameById" resultType="java.lang.String">
+        SELECT COMPANY_NAME from HD_COMPANY WHERE id = #{companyId} and TENANTID = #{tenantId}
+    </select>
+    <select id="getAllCompanyNames" resultMap="hdCompanyMap">
+        SELECT * from HD_COMPANY where 1=1 and TENANTID = #{tenantId} and CREATE_BY = #{userId}
+    </select>
+    <select id="getCompanyByName" resultMap="hdCompanyMap">
+        select * from HD_COMPANY where COMPANY_NAME = #{companyName} and TENANTID = #{tenantId} and CREATE_BY = #{userId}
+    </select>
+    <select id="getAllCompanyEx" resultMap="hdCompanyMap">
+        select * from HD_COMPANY where COMPANY_NAME like CONCAT('%',#{company},'%') and TENANTID = #{tenantId} and CREATE_BY = #{userId}
+    </select>
+</mapper>

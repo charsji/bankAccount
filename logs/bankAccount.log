@@ -1,0 +1,185 @@
+16:57:04.447 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+16:57:49.780 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+16:57:49.986 [main] INFO  c.h.jjaccount.JjaccountApplication - Started JjaccountApplication in 0.456 seconds (JVM running for 48.802)
+16:57:53.477 [main] INFO  c.h.jjaccount.JjaccountApplication - Started JjaccountApplication in 50.669 seconds (JVM running for 52.293)
+17:02:07.101 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+17:02:54.514 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+17:02:54.708 [main] INFO  c.h.jjaccount.JjaccountApplication - Started JjaccountApplication in 0.443 seconds (JVM running for 51.35)
+17:02:59.611 [main] INFO  c.h.jjaccount.JjaccountApplication - Started JjaccountApplication in 54.146 seconds (JVM running for 56.253)
+17:53:17.921 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+17:54:00.507 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+17:54:00.733 [main] INFO  c.h.jjaccount.JjaccountApplication - Started JjaccountApplication in 0.472 seconds (JVM running for 45.894)
+16:25:58.073 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+16:26:53.191 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+16:26:53.435 [main] INFO  c.h.jjaccount.JjaccountApplication - Started JjaccountApplication in 0.506 seconds (JVM running for 64.53)
+21:28:39.602 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+21:29:29.301 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+21:29:29.540 [main] INFO  c.h.jjaccount.JjaccountApplication - Started JjaccountApplication in 0.502 seconds (JVM running for 53.028)
+21:58:28.816 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+21:59:14.172 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+21:59:14.433 [main] INFO  c.h.jjaccount.JjaccountApplication - Started JjaccountApplication in 0.554 seconds (JVM running for 48.684)
+14:38:00.729 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+14:38:45.743 [main] INFO  c.h.jjaccount.JjaccountApplication - No active profile set, falling back to default profiles: default
+14:38:45.956 [main] INFO  c.h.jjaccount.JjaccountApplication - Started JjaccountApplication in 0.471 seconds (JVM running for 48.393)
+15:10:35.428 [XNIO-2 task-5] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+15:10:35.460 [XNIO-2 task-5] DEBUG c.h.j.m.H.getAllCompanyNames - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:35.474 [XNIO-2 task-5] DEBUG c.h.j.m.H.getAllCompanyNames - <==      Total: 97
+15:10:35.487 [XNIO-2 task-4] DEBUG c.h.j.m.H.getBankAccountListBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC LIMIT 0, 10 
+15:10:35.488 [XNIO-2 task-4] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+15:10:35.496 [XNIO-2 task-4] DEBUG c.h.j.m.H.getBankAccountListBySql - <==      Total: 0
+15:10:35.505 [XNIO-2 task-4] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+15:10:35.509 [XNIO-2 task-4] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+15:10:38.568 [XNIO-2 task-7] DEBUG c.h.j.m.H.getBankPendingList - <==      Total: 10
+15:10:38.576 [XNIO-2 task-7] DEBUG c.h.j.m.H.getAllBankPending - ==>  Preparing: SELECT * FROM HD_BANK_PENDING WHERE 1 = 1 AND TENANTID = ? 
+15:10:38.577 [XNIO-2 task-7] DEBUG c.h.j.m.H.getAllBankPending - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:39.660 [XNIO-2 task-8] DEBUG c.h.j.m.H.selectByExample_COUNT - <==      Total: 1
+15:10:39.662 [XNIO-2 task-8] DEBUG c.h.j.m.H.selectByExample - ==> Parameters: 
+15:10:39.665 [XNIO-2 task-8] DEBUG c.h.j.m.H.selectByExample - <==      Total: 10
+15:10:42.093 [XNIO-2 task-9] DEBUG c.h.j.m.H.getHdBankRecordList - ==>  Preparing: SELECT * FROM HD_BANK_RECORD hmc INNER JOIN HD_COMPANY hc ON hmc.COMPANYID = hc.id WHERE 1 = 1 AND hmc.TENANTID = ? ORDER BY hmc.create_date DESC LIMIT 0, 10 
+15:10:42.098 [XNIO-2 task-9] DEBUG c.h.j.m.H.getHdBankRecordList - <==      Total: 0
+15:10:42.104 [XNIO-2 task-9] DEBUG c.h.j.m.H.getAllBankRecord - ==>  Preparing: SELECT * FROM HD_BANK_RECORD hmc INNER JOIN HD_COMPANY hc ON hmc.COMPANYID = hc.id WHERE 1 = 1 AND hmc.TENANTID = ? 
+15:10:42.104 [XNIO-2 task-9] DEBUG c.h.j.m.H.getAllBankRecord - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:42.106 [XNIO-2 task-9] DEBUG c.h.j.m.H.getAllBankRecord - <==      Total: 0
+15:10:43.428 [XNIO-2 task-11] DEBUG c.h.j.m.H.getAllCompanyNames - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.431 [XNIO-2 task-12] DEBUG c.h.j.m.H.getHdMatchCompanyList - ==>  Preparing: SELECT * FROM HD_MATCH_COMPANY hmc WHERE 1 = 1 AND hmc.TENANTID = ? LIMIT 0, 10 
+15:10:43.431 [XNIO-2 task-12] DEBUG c.h.j.m.H.getHdMatchCompanyList - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.435 [XNIO-2 task-12] DEBUG c.h.j.m.H.getHdMatchCompanyList - <==      Total: 10
+15:10:43.435 [XNIO-2 task-11] DEBUG c.h.j.m.H.getAllCompanyNames - <==      Total: 97
+15:10:43.440 [XNIO-2 task-12] DEBUG c.h.j.m.H.getAllMatchCompany - ==>  Preparing: SELECT * FROM HD_MATCH_COMPANY hmc WHERE 1 = 1 AND hmc.TENANTID = ? 
+15:10:43.441 [XNIO-2 task-12] DEBUG c.h.j.m.H.getAllMatchCompany - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.474 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==>  Preparing: SELECT COMPANY_NAME FROM HD_COMPANY WHERE id = ? AND TENANTID = ? 
+15:10:43.475 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.477 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - <==      Total: 1
+15:10:43.480 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==>  Preparing: SELECT COMPANY_NAME FROM HD_COMPANY WHERE id = ? AND TENANTID = ? 
+15:10:43.481 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==> Parameters: f37ae64c5e584c6e986635e10be37178(String), ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.482 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - <==      Total: 1
+15:10:43.486 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==>  Preparing: SELECT COMPANY_NAME FROM HD_COMPANY WHERE id = ? AND TENANTID = ? 
+15:10:43.486 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==> Parameters: cf929aac79084191b3fca585a85a443f(String), ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.488 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - <==      Total: 1
+15:10:43.490 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==>  Preparing: SELECT COMPANY_NAME FROM HD_COMPANY WHERE id = ? AND TENANTID = ? 
+15:10:43.490 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==> Parameters: b9105710d16c45d19f3168002a8d12c1(String), ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.491 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - <==      Total: 1
+15:10:43.493 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==>  Preparing: SELECT COMPANY_NAME FROM HD_COMPANY WHERE id = ? AND TENANTID = ? 
+15:10:43.493 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==> Parameters: f37ae64c5e584c6e986635e10be37178(String), ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.495 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - <==      Total: 1
+15:10:43.496 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==> Parameters: cf929aac79084191b3fca585a85a443f(String), ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.498 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - <==      Total: 1
+15:10:43.499 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==>  Preparing: SELECT COMPANY_NAME FROM HD_COMPANY WHERE id = ? AND TENANTID = ? 
+15:10:43.499 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==> Parameters: f37ae64c5e584c6e986635e10be37178(String), ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.501 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - <==      Total: 1
+15:10:43.502 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==>  Preparing: SELECT COMPANY_NAME FROM HD_COMPANY WHERE id = ? AND TENANTID = ? 
+15:10:43.502 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.503 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - <==      Total: 1
+15:10:43.505 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==>  Preparing: SELECT COMPANY_NAME FROM HD_COMPANY WHERE id = ? AND TENANTID = ? 
+15:10:43.505 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==> Parameters: 833c5d956fed42178045c28f6f21d6c2(String), ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.506 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - <==      Total: 1
+15:10:43.508 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==>  Preparing: SELECT COMPANY_NAME FROM HD_COMPANY WHERE id = ? AND TENANTID = ? 
+15:10:43.508 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - ==> Parameters: 833c5d956fed42178045c28f6f21d6c2(String), ac88ceb386aa4231b09bf472cb937c24(String)
+15:10:43.509 [XNIO-2 task-12] DEBUG c.h.j.m.H.getCompanyNameById - <==      Total: 1
+15:10:43.837 [XNIO-2 task-13] DEBUG c.h.j.m.H.selectByExample_COUNT - ==>  Preparing: SELECT count(0) FROM HD_NZ_DICT 
+15:10:43.837 [XNIO-2 task-13] DEBUG c.h.j.m.H.selectByExample_COUNT - ==> Parameters: 
+15:10:43.839 [XNIO-2 task-13] DEBUG c.h.j.m.H.selectByExample_COUNT - <==      Total: 1
+15:10:43.840 [XNIO-2 task-13] DEBUG c.h.j.m.H.selectByExample - ==>  Preparing: SELECT id, NZID, WBZH, BANK, WBSY, ZHNAME, TENANTID, CREATE_TIME, CREATE_BY FROM HD_NZ_DICT LIMIT 10 
+15:10:43.840 [XNIO-2 task-13] DEBUG c.h.j.m.H.selectByExample - ==> Parameters: 
+15:10:43.841 [XNIO-2 task-13] DEBUG c.h.j.m.H.selectByExample - <==      Total: 10
+15:10:44.280 [XNIO-2 task-14] DEBUG c.h.j.m.H.selectByExample_COUNT - ==>  Preparing: SELECT count(0) FROM HD_COMPANY 
+15:10:44.281 [XNIO-2 task-14] DEBUG c.h.j.m.H.selectByExample_COUNT - ==> Parameters: 
+15:10:44.282 [XNIO-2 task-14] DEBUG c.h.j.m.H.selectByExample_COUNT - <==      Total: 1
+15:10:44.284 [XNIO-2 task-14] DEBUG c.h.j.m.H.selectByExample - ==>  Preparing: SELECT id, COMPANY_NAME, TENANTID, CODE, CREATE_TIME, CREATE_BY FROM HD_COMPANY LIMIT 10 
+15:10:44.284 [XNIO-2 task-14] DEBUG c.h.j.m.H.selectByExample - ==> Parameters: 
+15:10:44.286 [XNIO-2 task-14] DEBUG c.h.j.m.H.selectByExample - <==      Total: 10
+15:10:45.324 [XNIO-2 task-15] DEBUG c.h.j.m.H.selectByExample_COUNT - ==> Parameters: 
+15:10:45.325 [XNIO-2 task-15] DEBUG c.h.j.m.H.selectByExample_COUNT - <==      Total: 1
+15:10:45.327 [XNIO-2 task-15] DEBUG c.h.j.m.H.selectByExample - ==>  Preparing: SELECT id, NZID, WBZH, BANK, WBSY, ZHNAME, TENANTID, CREATE_TIME, CREATE_BY FROM HD_NZ_DICT LIMIT 10 
+15:10:45.328 [XNIO-2 task-15] DEBUG c.h.j.m.H.selectByExample - ==> Parameters: 
+15:10:48.462 [XNIO-2 task-16] DEBUG c.h.j.m.H.selectByExample_COUNT - ==> Parameters: 
+15:10:48.464 [XNIO-2 task-16] DEBUG c.h.j.m.H.selectByExample_COUNT - <==      Total: 1
+15:10:48.465 [XNIO-2 task-16] DEBUG c.h.j.m.H.selectByExample - ==> Parameters: 
+15:10:48.467 [XNIO-2 task-16] DEBUG c.h.j.m.H.selectByExample - <==      Total: 10
+15:10:53.114 [XNIO-2 task-17] DEBUG c.h.j.m.H.selectByExample_COUNT - <==      Total: 1
+15:10:53.115 [XNIO-2 task-17] DEBUG c.h.j.m.H.selectByExample - ==>  Preparing: SELECT id, NZID, WBZH, BANK, WBSY, ZHNAME, TENANTID, CREATE_TIME, CREATE_BY FROM HD_NZ_DICT LIMIT 10 
+15:10:53.115 [XNIO-2 task-17] DEBUG c.h.j.m.H.selectByExample - ==> Parameters: 
+15:12:17.088 [XNIO-2 task-19] DEBUG c.h.j.m.H.getBankPendingList - <==      Total: 10
+15:12:17.090 [XNIO-2 task-19] DEBUG c.h.j.m.H.getAllBankPending - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+15:12:17.126 [XNIO-2 task-19] DEBUG c.h.j.m.H.getAllBankPending - <==      Total: 535
+15:12:25.167 [XNIO-2 task-20] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+15:12:25.167 [XNIO-2 task-20] DEBUG c.h.j.m.H.getAllCompanyNames - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+15:12:25.170 [XNIO-2 task-21] DEBUG c.h.j.m.H.getBankAccountListBySql - <==      Total: 0
+15:12:25.180 [XNIO-2 task-21] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+15:12:25.181 [XNIO-2 task-21] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+15:12:25.186 [XNIO-2 task-21] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+15:58:22.580 [XNIO-2 task-22] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+15:58:22.594 [XNIO-2 task-22] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+15:58:22.600 [XNIO-2 task-22] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+15:58:23.197 [XNIO-2 task-23] DEBUG c.h.j.m.H.getBankAccountListBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC LIMIT 0, 10 
+15:58:23.197 [XNIO-2 task-23] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+15:58:23.204 [XNIO-2 task-23] DEBUG c.h.j.m.H.getBankAccountListBySql - <==      Total: 0
+15:58:23.210 [XNIO-2 task-23] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+15:58:23.210 [XNIO-2 task-23] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+15:58:23.217 [XNIO-2 task-23] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+15:58:23.335 [XNIO-2 task-24] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+15:58:23.340 [XNIO-2 task-24] DEBUG c.h.j.m.H.getBankAccountListBySql - <==      Total: 0
+15:58:23.348 [XNIO-2 task-24] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+15:58:23.349 [XNIO-2 task-24] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+15:58:23.353 [XNIO-2 task-24] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+15:58:23.796 [XNIO-2 task-25] DEBUG c.h.j.m.H.getBankAccountListBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC LIMIT 0, 10 
+15:58:23.797 [XNIO-2 task-25] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+15:58:23.810 [XNIO-2 task-25] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+15:58:23.811 [XNIO-2 task-25] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+15:58:23.815 [XNIO-2 task-25] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+16:56:02.895 [XNIO-2 task-26] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+16:56:02.902 [XNIO-2 task-27] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+16:56:02.907 [XNIO-2 task-27] DEBUG c.h.j.m.H.getAllCompanyNames - <==      Total: 97
+16:56:02.912 [XNIO-2 task-26] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+16:56:02.912 [XNIO-2 task-26] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+16:56:02.916 [XNIO-2 task-26] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+16:57:35.500 [XNIO-2 task-29] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+16:57:35.502 [XNIO-2 task-28] DEBUG c.h.j.m.H.getBankAccountListBySql - <==      Total: 0
+16:57:35.506 [XNIO-2 task-29] DEBUG c.h.j.m.H.getAllCompanyNames - <==      Total: 97
+16:57:35.508 [XNIO-2 task-28] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+16:57:35.509 [XNIO-2 task-28] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+16:57:35.516 [XNIO-2 task-28] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+17:07:55.612 [XNIO-2 task-30] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+17:07:55.620 [XNIO-2 task-31] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+17:07:55.621 [XNIO-2 task-31] DEBUG c.h.j.m.H.getAllCompanyNames - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+17:07:55.624 [XNIO-2 task-31] DEBUG c.h.j.m.H.getAllCompanyNames - <==      Total: 97
+17:07:55.629 [XNIO-2 task-30] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+17:07:55.633 [XNIO-2 task-30] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+17:19:15.472 [XNIO-2 task-32] DEBUG c.h.j.m.H.getBankAccountListBySql - <==      Total: 0
+17:19:15.476 [XNIO-2 task-32] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+17:19:15.477 [XNIO-2 task-32] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+17:19:15.490 [XNIO-2 task-1] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+17:19:15.490 [XNIO-2 task-1] DEBUG c.h.j.m.H.getAllCompanyNames - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+17:19:15.494 [XNIO-2 task-1] DEBUG c.h.j.m.H.getAllCompanyNames - <==      Total: 97
+17:19:23.674 [XNIO-2 task-3] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+17:19:23.679 [XNIO-2 task-3] DEBUG c.h.j.m.H.getBankAccountListBySql - <==      Total: 0
+17:19:23.680 [XNIO-2 task-2] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+17:19:23.680 [XNIO-2 task-2] DEBUG c.h.j.m.H.getAllCompanyNames - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+17:19:23.685 [XNIO-2 task-2] DEBUG c.h.j.m.H.getAllCompanyNames - <==      Total: 97
+17:19:23.689 [XNIO-2 task-3] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+17:19:23.689 [XNIO-2 task-3] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+17:19:49.822 [XNIO-2 task-5] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+17:19:49.835 [XNIO-2 task-4] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+17:19:49.840 [XNIO-2 task-5] DEBUG c.h.j.m.H.getBankAccountListBySql - <==      Total: 0
+17:19:49.840 [XNIO-2 task-4] DEBUG c.h.j.m.H.getAllCompanyNames - <==      Total: 97
+17:19:49.850 [XNIO-2 task-5] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+17:19:49.855 [XNIO-2 task-5] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+17:20:29.434 [XNIO-2 task-6] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+17:20:29.441 [XNIO-2 task-7] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+17:20:29.441 [XNIO-2 task-7] DEBUG c.h.j.m.H.getAllCompanyNames - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+17:20:29.445 [XNIO-2 task-6] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+17:20:29.446 [XNIO-2 task-7] DEBUG c.h.j.m.H.getAllCompanyNames - <==      Total: 97
+17:20:29.451 [XNIO-2 task-6] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+17:20:38.577 [XNIO-2 task-8] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+17:20:38.578 [XNIO-2 task-8] DEBUG c.h.j.m.H.getAllCompanyNames - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+17:20:38.581 [XNIO-2 task-10] DEBUG c.h.j.m.H.getBankAccountListBySql - <==      Total: 0
+17:20:38.585 [XNIO-2 task-10] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+17:20:38.586 [XNIO-2 task-10] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+17:20:38.590 [XNIO-2 task-10] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0
+17:20:56.559 [XNIO-2 task-11] DEBUG c.h.j.m.H.getAllCompanyNames - ==>  Preparing: SELECT * FROM HD_COMPANY WHERE 1 = 1 AND TENANTID = ? 
+17:20:56.559 [XNIO-2 task-11] DEBUG c.h.j.m.H.getAllCompanyNames - ==> Parameters: ac88ceb386aa4231b09bf472cb937c24(String)
+17:20:56.559 [XNIO-2 task-9] DEBUG c.h.j.m.H.getBankAccountListBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+17:20:56.567 [XNIO-2 task-9] DEBUG c.h.j.m.H.getBankAccountListBySql - <==      Total: 0
+17:20:56.572 [XNIO-2 task-9] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==>  Preparing: SELECT ACCOUNT_DATE, no, SUBJECTS, REMARK, INCOME, pay, hc.COMPANY_NAME, (SELECT sum(INCOME - PAY) FROM HD_BANK_ACCOUNT haa INNER JOIN HD_COMPANY hc ON haa.COMPANY_NAME = hc.ID WHERE 1 = 1 AND haa.tenantId = ? AND haa.company_name = b.COMPANY_NAME AND (haa.ACCOUNT_DATE < b.ACCOUNT_DATE OR (haa.ACCOUNT_DATE = b.ACCOUNT_DATE AND haa.no <= b.no))) BALANCE FROM HD_BANK_ACCOUNT b INNER JOIN HD_COMPANY hc ON b.COMPANY_NAME = hc.ID WHERE b.tenantId = ? ORDER BY b.ACCOUNT_DATE DESC, b.no DESC 
+17:20:56.572 [XNIO-2 task-9] DEBUG c.h.j.m.H.getAllBankAccountBySql - ==> Parameters: aad85cb03e9f42a89d5641fe672d5c42(String), aad85cb03e9f42a89d5641fe672d5c42(String)
+17:20:56.579 [XNIO-2 task-9] DEBUG c.h.j.m.H.getAllBankAccountBySql - <==      Total: 0

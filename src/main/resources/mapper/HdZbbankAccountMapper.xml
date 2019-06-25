@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hodo.jjaccount.mapper.HdZbbankAccountMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hodo.jjaccount.entity.HdZbbankAccount" id="hdZbbankAccountMap">
+        <result property="id" column="ID"/>
+        <result property="accountDate" column="ACCOUNT_DATE"/>
+        <result property="no" column="NO"/>
+        <result property="subjects" column="SUBJECTS"/>
+        <result property="remark" column="REMARK"/>
+        <result property="income" column="INCOME"/>
+        <result property="pay" column="PAY"/>
+        <result property="balance" column="BALANCE"/>
+        <result property="companyName" column="COMPANY_NAME"/>
+        <result property="createName" column="CREATE_NAME"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="rid" column="RID"/>
+        <result property="sheetid" column="SHEETID"/>
+        <result property="synAccountDate" column="SYNACCOUNT_DATE"/>
+        <result property="tenantId" column="TENANTID"/>
+    </resultMap>
+    <resultMap id="incomeAndPayMap" type="com.hodo.jjaccount.entity.IncomeAndPay">
+        <result property="incomes" column="incomes"></result>
+        <result property="pays" column="pays"></result>
+    </resultMap>
+    <resultMap id="MonInAndPayMap" type="com.hodo.jjaccount.entity.MonInAndPay">
+        <result property="yearMon" column="yearMon"></result>
+        <result property="incomes" column="incomes"></result>
+        <result property="pays" column="pays"></result>
+    </resultMap>
+    <!--<resultMap id="statisticsMap" type="com.hodo.jjaccount.entity.Statistics">-->
+    <!--<result property="companyName" column="companyName"></result>-->
+    <!--<result property="beginBalance" column="beginBalance"></result>-->
+    <!--<result property="currentIncome" column="currentIncome"></result>-->
+    <!--<result property="currentPay" column="currentPay"></result>-->
+    <!--</resultMap>-->
+
+
+    <select id="getBankAccountList" resultMap="hdZbbankAccountMap">
+        select hba.* from HD_ZBBANK_ACCOUNT hba
+        inner join HD_COMPANY hc on hba.company_name=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and hba.account_date &gt;=date_format(#{startTime}, '%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and hba.account_date &lt;= date_format(#{endTime}, '%Y-%m-%d')
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and hba.TENANTID = #{tenantId}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+        order by hba.account_date desc,hba.company_name desc,hba.no desc
+        limit ${page},${limit}
+    </select>
+
+
+    <select id="getAllBankAccount" resultMap="hdZbbankAccountMap">
+        SELECT * from HD_ZBBANK_ACCOUNT hba inner join HD_COMPANY hc on hba.company_name = hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name = #{companyName}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and hba.account_date &gt;= date_format(#{startTime}, '%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and hba.account_date &lt;= date_format(#{endTime}, '%Y-%m-%d')
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and hba.TENANTID = #{tenantId}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="selectMaxNo" resultType="java.lang.Integer">
+        select max(no) from HD_ZBBANK_ACCOUNT hba inner join HD_COMPANY hc
+        on hba.company_name=hc.id where 1=1
+        AND DATE_FORMAT(ACCOUNT_DATE,'%Y-%m')=DATE_FORMAT(SYSDATE(),'%Y-%m')
+        AND hc.id=#{companyName} and hba.TENANTID = #{tenantId}
+    </select>
+
+
+    <select id="selBalanceBysql" resultType="java.lang.String">
+        SELECT BALANCE FROM HD_ZBBANK_ACCOUNT hba
+        inner join HD_COMPANY hc on hba.company_name=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        and hba.TENANTID = #{tenantId}
+        and hba.ACCOUNT_DATE &lt; date_format('2017-01-01','%Y-%m-%d') and income=0 and pay =0 ORDER BY ACCOUNT_DATE ASC
+    </select>
+
+
+    <select id="selIncomeAndPayBysql" resultMap="incomeAndPayMap">
+        select IFNULL(sum(income),0.00) incomes,IFNULL(sum(pay),0.00) pays from HD_ZBBANK_ACCOUNT hba
+        inner join HD_COMPANY hc on hba.company_name=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        and hba.TENANTID = #{tenantId}
+        and hba.ACCOUNT_DATE &lt; date_format(#{date},'%Y-%m-%d')
+    </select>
+
+
+    <select id="selIncomeAndPayOnNoBysql" resultMap="incomeAndPayMap">
+        select IFNULL(sum(income),0.00) incomes,IFNULL(sum(pay),0.00) pays from HD_ZBBANK_ACCOUNT hba
+        inner join HD_COMPANY hc on hba.company_name=hc.id where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hc.company_name=#{companyName}
+        </if>
+        and hba.TENANTID = #{tenantId}
+        AND hba.ACCOUNT_DATE=date_format(#{date},'%Y-%m-%d') AND no &lt;= ${num} ORDER BY no
+    </select>
+
+
+    <select id="getSheetIdsInZBBankAccount" resultType="java.lang.String">
+        SELECT DISTINCT sheetid from HD_ZBBANK_ACCOUNT where TENANTID = #{tenantId} and SHEETID is not null
+    </select>
+    <select id="getRIdsInZBBankAccount" resultType="java.lang.String">
+        SELECT DISTINCT rid from HD_ZBBANK_ACCOUNT where TENANTID = #{tenantId} and rid is not null
+    </select>
+    <select id="getRIdsInBankPend" resultType="java.lang.String">
+        SELECT DISTINCT rid from HD_ZBBANK_PENDING where TENANTID = #{tenantId} and rid is not null
+    </select>
+    <select id="getSheetIdsInBankPend" resultType="java.lang.String">
+        SELECT DISTINCT sheetid from HD_ZBBANK_PENDING where TENANTID = #{tenantId} and SHEETID is not null
+    </select>
+
+    <insert id="addList" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into HD_ZBBANK_ACCOUNT(id,ACCOUNT_DATE,NO,SUBJECTS,
+        REMARK,INCOME,PAY,BALANCE,COMPANY_NAME,CREATE_NAME,CREATE_BY,RID
+        ,SHEETID,SYNACCOUNT_DATE,TENANTID)
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            SELECT uuid(),
+            #{item.accountDate},#{item.no},#{item.subjects},#{item.remark},
+            #{item.income},#{item.pay},#{item.balance},#{item.companyName},#{item.createName},
+            #{item.createBy},#{item.rid},#{item.sheetid},#{item.synAccountDate},#{item.tenantId}
+            from dual
+        </foreach>
+    </insert>
+
+    <select id="getSaveCount" resultType="java.lang.Integer">
+        SELECT count(*) from HD_ZBBANK_ACCOUNT where TENANTID=#{tenantId}
+    </select>
+
+    <!--查询每年每月的资金合计-->
+    <!--<select id="geteveryMonthPayAndIncome" resultMap="MonInAndPayMap">-->
+    <!--select extract(YEAR_MONTH from ACCOUNT_DATE) yearMon,sum(income) incomes,SUM(pay) pays from HD_ZBBANK_ACCOUNT-->
+    <!--group by extract(year_month from ACCOUNT_DATE)-->
+    <!--</select>-->
+
+    <!--查询当年每月资金合计-->
+    <!--<select id="geteveryMonthPayAndIncome" resultMap="MonInAndPayMap">-->
+    <!--select extract(YEAR_MONTH from ACCOUNT_DATE) yearMon,sum(income) incomes,SUM(pay) pays from HD_ZBBANK_ACCOUNT-->
+    <!--where 1 = 1 AND DATE_FORMAT(ACCOUNT_DATE,'%Y') = DATE_FORMAT(SYSDATE(),'%Y')-->
+    <!--group by extract(year_month from ACCOUNT_DATE)-->
+    <!--</select>-->
+
+    <select id="geteveryMonthPayAndIncome" resultMap="MonInAndPayMap">
+        select extract(YEAR_MONTH from ACCOUNT_DATE) yearMon,sum(income) incomes,SUM(pay) pays from HD_ZBBANK_ACCOUNT
+        where 1 = 1 AND DATE_FORMAT(ACCOUNT_DATE,'%Y') = DATE_FORMAT(#{Year},'%Y')
+        group by extract(year_month from ACCOUNT_DATE)
+    </select>
+
+
+</mapper>

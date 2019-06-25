@@ -1,0 +1,187 @@
+logging:
+    level:
+        tk.mybatis: DEBUG
+        com.github.wxiaoqi.security.admin: DEBUG
+#logging:
+#    config: classpath:logback.xml
+#    file: bankAccount.log
+#    level:
+#        tk.mybatis: DEBUG
+#        com.github.wxiaoqi.security.admin: DEBUG
+#    path: logs
+spring:
+    application:
+        name: bankAccount
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
+        default-property-inclusion: non_null
+    datasource:
+        name: test
+#        url: jdbc:mysql://${MYSQL_HOST:172.22.0.147}:${MYSQL_PORT:3306}/ag_university?useUnicode=true&characterEncoding=UTF8
+#        username: root
+#        password: Hongdou$2018
+#        url: jdbc:mysql://${MYSQL_HOST:47.104.235.18}:${MYSQL_PORT:3306}/ag_university?useUnicode=true&characterEncoding=UTF8
+#        username: partybuilding
+#        password: partybuilding
+        url: jdbc:mysql://${MYSQL_HOST:172.22.0.195}:${MYSQL_PORT:3306}/bank_account?useUnicode=true&characterEncoding=UTF8
+#        username: root
+#        password: Hongdou$2018
+        username: partybuilding
+        password: partybuilding
+#        url: jdbc:mysql://${MYSQL_HOST:10.10.65.107}:${MYSQL_PORT:3306}/bank_account?useUnicode=true&characterEncoding=UTF8
+#        username: root
+#        password: Hongdou2019
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        druid:
+            filters: stat
+            maxActive: 20
+            initialSize: 1
+            maxWait: 60000
+            minIdle: 1
+            timeBetweenEvictionRunsMillis: 60000
+            minEvictableIdleTimeMillis: 300000
+            validationQuery: select 'x'
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            poolPreparedStatements: true
+            maxOpenPreparedStatements: 20
+    redis:
+        database: 1
+#        host: ${REDIS_HOST:10.10.65.108}
+        host: ${REDIS_HOST:172.22.0.195}
+#        host: 172.22.0.147
+        port: ${REDIS_PORT:6379}
+        pool:
+            max-active: 20
+    rabbitmq:
+#        host: ${RABBIT_MQ_HOST:10.10.65.108}
+        host: ${RABBIT_MQ_HOST:172.22.0.195}
+#        host: 172.22.0.147
+        port: ${RABBIT_MQ_PORT:5672}
+        username: admin
+        password: admin
+    zipkin:
+        enabled: true
+    sleuth:
+      sampler:
+        percentage: 1
+mybatis:
+    mapper-locations: "classpath*:mapper/*.xml"
+
+server:
+    port: 9883
+
+eureka:
+    instance:
+        statusPageUrlPath: /info
+        healthCheckUrlPath: /health
+         #docker 部署开启,记得将IP修改为部署所在服务器的外网IP
+        prefer-ip-address: true
+        ip-address: 172.20.29.91
+#        ip-address: 10.10.65.108
+#        ip-address: 172.22.0.147
+        #本地地址
+        #ip-address: 127.0.0.1
+        #服务器地址
+#        instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+#        eviction-interval-timer-in-ms: 1000
+        lease-renewal-interval-in-seconds: 5
+        lease-expiration-duration-in-seconds: 5
+    client:
+        serviceUrl:
+            #本地地址
+#            defaultZone: http://172.22.0.147:8761/eureka/
+            #服务器地址
+            # docker 部署开启,记得将IP修改为部署所在服务器的外网IP
+#            defaultZone: http://${EUREKA_HOST:10.10.65.108}:${EUREKA_PORT:8761}/eureka/
+            defaultZone: http://${EUREKA_HOST:172.22.0.195}:${EUREKA_PORT:8761}/eureka/
+ #必须配置
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 120000
+  ConnectTimeout: 120000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+
+hystrix:
+  threadpool:
+    default:
+      #并发执行的最大线程数，默认10
+      coreSize: 1000
+      #BlockingQueue的最大队列数
+      maxQueueSize: 1000
+      #即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+      queueSizeRejectionThreshold: 500
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 110000
+
+#配置swagger
+swagger:
+    enabled: true
+    base-package: com.hodo.jjaccount
+    title: bankAccount
+    version: 1.0.0.SNAPSHOT
+    description: bankAccount
+    contact:
+        name: 老A
+
+auth:
+  serviceId: ace-auth
+  user:
+    token-header: Authorization
+    #一天过期
+    limit-expire: 1440
+  client:
+    id: bankAccount
+    secret: 123456
+    token-header: client-token
+
+#redis-cache 相关
+redis:
+    pool:
+         maxActive: 300
+         maxIdle: 100
+         maxWait: 10000
+#    host: ${REDIS_HOST:10.10.65.108}
+    host: 172.22.0.195
+    port: 6379
+#    ipAndPort: redis://10.10.65.108:6379
+    ipAndPort: redis://172.22.0.195:6379
+    password:
+    timeout: 200000
+  #服务或应用名
+    sysName: bankAccount
+    enable: true
+    database: 0
+    redis_mode: SINGLE
+    redis_slave_ip_port:
+#跨服务数据合并
+merge:
+  enabled: true
+  guavaCacheNumMaxSize: 1000
+  guavaCacheRefreshWriteTime: 10 # min
+  guavaCacheRefreshThreadPoolSize: 10
+  aop:
+    enabled: true
+
+mapper:
+  mappers: com.github.wxiaoqi.security.common.mapper.CommonMapper
+#basePath:  http://10.10.65.108:8088/
+basePath:  http://172.22.0.195:8088/
+#basePath: http://122.193.143.250:11802/
+

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hodo.jjaccount.mapper.HdMatchCompanyMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hodo.jjaccount.entity.HdMatchCompany" id="hdMatchCompanyMap">
+        <result property="id" column="ID"/>
+        <result property="customerName" column="CUSTOMER_NAME"/>
+        <result property="companyName" column="COMPANY_NAME"/>
+        <result property="innerCompany" column="INNER_COMPANY"/>
+        <result property="tenantId" column="TENANTID"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="createBy" column="CREATE_BY"/>
+    </resultMap>
+
+    <select id="getHdMatchCompanyList" resultMap="hdMatchCompanyMap">
+        select * from HD_MATCH_COMPANY hmc where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hmc.company_name=#{companyName}
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and hmc.TENANTID = #{tenantId}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(${key},'''','') like CONCAT('%',#{value},'%')
+            </foreach>
+        </if>
+        limit ${page},${limit}
+    </select>
+    <select id="getAllMatchCompany" resultMap="hdMatchCompanyMap">
+        select * from HD_MATCH_COMPANY hmc where 1=1
+        <if test="companyName!=null and companyName!=''">
+            and hmc.company_name=#{companyName}
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and hmc.TENANTID = #{tenantId}
+        </if>
+        <if test="params!=null and params.size>0">
+            and
+            <foreach collection="params" index="key" item="value" separator="and">
+                replace(${key},'''','') like
+                <choose>
+                    <when test="value != null and value !=''">
+                        CONCAT('%',#{value},'%')
+                    </when>
+                    <otherwise>
+                        CONCAT('%','','%')
+                    </otherwise>
+                </choose>
+
+            </foreach>
+        </if>
+    </select>
+    <select id="getMatchCompanyByTerm" resultMap="hdMatchCompanyMap">
+        select * from HD_MATCH_COMPANY where 1=1
+        <if test="customerName!=null and customerName!=''">
+            and CUSTOMER_NAME = #{customerName}
+        </if>
+        and TENANTID = #{tenantId} and CREATE_BY = #{userId}
+    </select>
+
+
+</mapper>
